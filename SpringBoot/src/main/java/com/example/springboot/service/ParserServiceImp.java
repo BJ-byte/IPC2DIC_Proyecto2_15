@@ -14,8 +14,11 @@ import java.io.InputStream;
 public class ParserServiceImp implements ParserService{
 
     private final CentroService centroService;
-    public ParserServiceImp(CentroService centroService) {
+    private final RutaService rutaService;
+
+    public ParserServiceImp(CentroService centroService, RutaService rutaService) {
         this.centroService = centroService;
+        this.rutaService = rutaService;
     }
 
     @Override
@@ -50,7 +53,7 @@ public class ParserServiceImp implements ParserService{
             }
 
             //rutas
-            /*NodeList listaRutas = doc.getElementsByTagName("ruta");
+            NodeList listaRutas = doc.getElementsByTagName("ruta");
 
             for (int i = 0; i < listaRutas.getLength(); i++) {
                 Element ruta0 = (Element) listaRutas.item(i);
@@ -64,23 +67,17 @@ public class ParserServiceImp implements ParserService{
                     int distancia = Integer.parseInt(distancia0);
 
                     Ruta ruta = new Ruta(id, origen, destino, distancia);
-                    boolean verificarCentros = ruta.verificarCentros(centros);
-                    boolean verificarDuplicados = ruta.verificarDuplicados(rutas);
-
-                    if (verificarCentros && verificarDuplicados) {
-                        //añade la ruta
-                        rutas.add(ruta);
-                        System.out.println("Desde parser: la ruta con id "+id+" fue agregada al sistema\n");
-                    } else if (!verificarCentros) {
-                        System.out.println("ERROR. Desde parser: la ruta con id "+id+" no fue agregada al sistema, verifique los centros existentes en el sistema\n");
-                    } else {
-                        System.out.println("ERROR. Desde parser: la ruta con id "+id+" no fue agregada al sistema, porque ya existe una ruta con origen "+origen+" y destino "+destino+"\n");
+                    
+                    try{
+                        rutaService.crearRuta(ruta);
+                    } catch (IllegalStateException e) {
+                        System.out.println("ERROR. Desde parser: la ruta con id "+id+" no fue agregada al sistema, verifique que no este duplicada o que los centros existan\n");
                     }
 
                 } catch (NumberFormatException e) {
                     System.out.println("ERROR. Desde parser: el atributo distancia no es un numero. La ruta con id "+id+" no fue agregada al sistema\n");
                 }
-            }/* */
+            }
 
             //mensajeros
             NodeList listaMensajeros = doc.getElementsByTagName("mensajero");
@@ -165,6 +162,6 @@ public class ParserServiceImp implements ParserService{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResultadoParser(centroService.obtenerCentros(), null, null);
+        return new ResultadoParser(centroService.obtenerCentros(), rutaService.obtenerRutas(), null);
     }
 }

@@ -1,7 +1,5 @@
 package com.example.springboot.model;
 
-import java.util.LinkedList;
-
 public class Mensajero {
 
     private String id;
@@ -57,28 +55,5 @@ public class Mensajero {
 
     public void setEstadoOperativo(String estadoOperativo) {
         this.estadoOperativo = estadoOperativo;
-    }
-
-    public boolean comprobarCentro(LinkedList<Centro> centros) {
-        for (Centro c : centros) {
-            if (c.getId().equals(this.getCentro())) {
-                System.out.println("Desde mensajero "+this.getId()+" el centro asignado si existe");
-                return true;
-            }
-        }
-        System.out.println("Desde mensajero "+this.getId()+" el centro asignado no existe");
-        return false;
-    }
-
-    public boolean verificarDuplicados(LinkedList<Centro> centros) {
-        for (Centro c : centros) {
-            LinkedList<Mensajero> mensajerosActuales = c.getMensajerosActuales();
-            for (Mensajero m : mensajerosActuales) {
-                if (m.getId().equals(this.id)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }
