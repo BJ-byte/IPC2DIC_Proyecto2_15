@@ -1,7 +1,5 @@
 package com.example.springboot.model;
 
-import java.util.LinkedList;
-
 public class Paquete {
 
     private String id;
@@ -66,39 +64,5 @@ public class Paquete {
 
     public void setCentroActual(String centroActual) {
         this.centroActual = centroActual;
-    }
-
-    public boolean verificarCentros(LinkedList<Centro> centros) {
-        boolean validarOrigen = false;
-        boolean validarDestino = false;
-        for (Centro c : centros) {
-            if (c.getId().equals(this.centroActual)) {
-                validarOrigen = true;
-            }else if (c.getId().equals(this.destino)) {
-                validarDestino = true;
-            }
-        }
-        if (validarOrigen && validarDestino) {
-            System.out.println("Desde paquete: los centros del paquete "+this.getId()+" si existen");
-            return true;
-        }else if (!validarOrigen) {
-            System.out.println("Desde paquete: "+this.getId()+" el centro origen "+this.getCentroActual()+ "no existe");
-        }else {
-            System.out.println("Desde paquete: "+this.getId()+" el centro destino "+this.getDestino()+ "no existe");
-        }
-        System.out.println("Desde paquete: la funcion fallo. Centro origen "+this.getCentroActual()+" centro destino "+this.getDestino());
-        return false;
-    }
-
-    public boolean verificarDuplicados(LinkedList<Centro> centros) {
-        for (Centro c : centros) {
-            LinkedList<Paquete> paquetesAlmacenados = c.getPaquetesAlmacenados();
-            for (Paquete p : paquetesAlmacenados) {
-                if (p.getId().equals(this.id)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }

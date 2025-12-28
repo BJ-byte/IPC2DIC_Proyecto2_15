@@ -23,12 +23,12 @@ export default function Users() {
 
     return (
         <div>
-            <form onSubmit={handleXmlSubmit} style={{ marginBottom: '1.5rem', textAlign: 'center' }}>
+            <h1>Importar XML</h1>
+            <form onSubmit={handleXmlSubmit}>
                 <input
                     type="file"
                     accept=".xml"
                     onChange={e => setXmlFile(e.target.files[0])}
-                    style={{ marginRight: '1rem' }}
                 />
                 <button type="submit" className="btn primary" style={{ width: 'auto' }}>
                     Cargar XML

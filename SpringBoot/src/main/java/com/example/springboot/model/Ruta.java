@@ -48,28 +48,6 @@ public class Ruta {
         this.distancia = distancia;
     }
 
-    public boolean verificarCentros(LinkedList<Centro> centros) {
-        boolean validarOrigen = false;
-        boolean validarDestino = false;
-        for (Centro c : centros) {
-            if (c.getId().equals(this.origen)) {
-                validarOrigen = true;
-            }else if (c.getId().equals(this.destino)) {
-                validarDestino = true;
-            }
-        }
-        if (validarOrigen && validarDestino) {
-            System.out.println("Desde ruta: los centros de la ruta "+this.getId()+" si existen");
-            return true;
-        }else if (!validarOrigen) {
-            System.out.println("Desde ruta: "+this.getId()+" el centro origen "+this.getOrigen()+ "no existe");
-        }else {
-            System.out.println("Desde ruta: "+this.getId()+" el centro destino "+this.getDestino()+ "no existe");
-        }
-        System.out.println("Desde ruta: la funcion fallo. Centro origen "+this.origen+" centro destino "+this.getDestino());
-        return false;
-    }
-
     public boolean verificarDuplicados(LinkedList<Ruta> rutas) {
         for (Ruta r : rutas) {
             String origen = r.getOrigen();
