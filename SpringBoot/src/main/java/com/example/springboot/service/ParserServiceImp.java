@@ -6,19 +6,24 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.*;
 import java.io.InputStream;
 
 @Service
 public class ParserServiceImp implements ParserService{
 
+    private final PaqueteService paqueteService;
     private final CentroService centroService;
     private final RutaService rutaService;
+    private final SolicitudService solicitudService;
+    private final MensajeroService mensajeroService;
 
-    public ParserServiceImp(CentroService centroService, RutaService rutaService) {
+    public ParserServiceImp(CentroService centroService, RutaService rutaService, SolicitudService solicitudService, MensajeroService mensajeroService, PaqueteService paqueteService) {
         this.centroService = centroService;
         this.rutaService = rutaService;
+        this.solicitudService = solicitudService;
+        this.mensajeroService = mensajeroService;
+        this.paqueteService = paqueteService;
     }
 
     @Override
@@ -94,8 +99,9 @@ public class ParserServiceImp implements ParserService{
                     int capacidad = Integer.parseInt(capacidad0);
 
                     Mensajero mensajero = new Mensajero(id, nombre, capacidad, centro, "DISPONIBLE");
+                    
                     try{
-                        centroService.agregarMensajero(centro, mensajero);
+                        mensajeroService.crearMensajero(mensajero);
                     } catch (IllegalStateException e) {
                         System.out.println("ERROR. Desde parser: el mensajero con id "+id+" no fue agregado al sistema, verifique que el centro exista " + centro + "\n");
                     }
@@ -123,7 +129,7 @@ public class ParserServiceImp implements ParserService{
                     Paquete paquete = new Paquete(id, cliente, peso, destino, estado, centroActual);
                     
                     try{
-                        centroService.agregarPaquete(centroActual, paquete);
+                        paqueteService.crearPaquete(paquete);
                     } catch (IllegalStateException e) {
                         System.out.println("ERROR. Desde parser: el paquete con id "+id+" no fue agregado al sistema, verifique que el centro exista " + centroActual + "\n");
                     }
@@ -134,7 +140,7 @@ public class ParserServiceImp implements ParserService{
             }
 
             //solicitudes
-            /*NodeList listaSolicitudes = doc.getElementsByTagName("solicitud");
+            NodeList listaSolicitudes = doc.getElementsByTagName("solicitud");
             for (int i = 0; i < listaSolicitudes.getLength(); i++) {
                 Element solicitud0 = (Element) listaSolicitudes.item(i);
 
@@ -145,23 +151,19 @@ public class ParserServiceImp implements ParserService{
 
                 try {
                     int prioridad = Integer.parseInt(prioridad0);
-
                     Solicitud solicitud = new Solicitud(id, tipo, paquete, prioridad);
-                    boolean verificarDuplicados = solicitud.verificarDuplicados(solicitudes);
-                    boolean verificarPaquete = solicitud.verificarPaquete(centros);
-
-                    if (verificarPaquete && !verificarDuplicados) {
-                        solicitudes.add(solicitud);
-                        System.out.println("Desde parser: la solicitud "+id+" fue agregada a la cola\n");
+                    try{
+                        solicitudService.crearSolicitud(solicitud);
+                    } catch (IllegalStateException e) {
+                        System.out.println("ERROR. Desde parser: la solicitud con id "+id+" no fue agregada al sistema, verifique que no este duplicada o que el paquete exista\n");
                     }
-
                 } catch (NumberFormatException e) {
                     System.out.println("ERROR. Desde parser: la prioridad no es un numero. La solicitud con id "+id+" no fue agregado al sistema\n");
                 }
-            }/* */
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResultadoParser(centroService.obtenerCentros(), rutaService.obtenerRutas(), null);
+        return new ResultadoParser(centroService.obtenerCentros(), rutaService.obtenerRutas(), solicitudService.obtenerSolicitudes());
     }
 }
