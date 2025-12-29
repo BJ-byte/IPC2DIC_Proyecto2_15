@@ -6,7 +6,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
-import java.util.List;
+import java.util.LinkedList;
 
 @RestController
 @RequestMapping("/api/mensajeros")
@@ -19,7 +19,7 @@ public class MensajerosController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Mensajero>> obtenerMensajeros() {
+    public ResponseEntity<LinkedList<Mensajero>> obtenerMensajeros() {
         return ResponseEntity.ok(mensajeroService.obtenerMensajeros());
     }
 

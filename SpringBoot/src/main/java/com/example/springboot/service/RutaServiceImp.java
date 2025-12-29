@@ -64,6 +64,19 @@ public class RutaServiceImp implements RutaService{
             throw new IllegalStateException("Ruta no encontrada");
         }
 
+        Centro origen = centroService.buscarCentroPorId(existente.getOrigen());
+        Centro destino = centroService.buscarCentroPorId(existente.getDestino());
+
+        if (origen == null || destino == null) {
+            throw new IllegalStateException("Centro origen o destino no existe");
+        }
+
+        for (Ruta r : rutas) {
+            if (r.getOrigen().equals(existente.getOrigen())
+                && r.getDestino().equals(existente.getDestino())) {
+                throw new IllegalStateException("Ruta duplicada origen-destino");
+            }
+        }
         existente.setOrigen(rutaActualizada.getOrigen());
         existente.setDestino(rutaActualizada.getDestino());
         existente.setDistancia(rutaActualizada.getDistancia());

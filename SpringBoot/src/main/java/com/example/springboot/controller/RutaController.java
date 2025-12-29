@@ -4,11 +4,7 @@ import com.example.springboot.model.Ruta;
 import com.example.springboot.service.RutaService;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
+import java.util.LinkedList;
 
 
 
@@ -23,7 +19,7 @@ public class RutaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Ruta>> obtenerRutas() {
+    public ResponseEntity<LinkedList<Ruta>> obtenerRutas() {
         return ResponseEntity.ok(rutaService.obtenerRutas());
     }
 

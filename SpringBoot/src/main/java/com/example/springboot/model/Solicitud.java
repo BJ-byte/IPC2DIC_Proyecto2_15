@@ -1,7 +1,5 @@
 package com.example.springboot.model;
 
-import java.util.LinkedList;
-
 public class Solicitud {
 
     private String id;
@@ -46,28 +44,5 @@ public class Solicitud {
 
     public void setPrioridad(int prioridad) {
         this.prioridad = prioridad;
-    }
-
-    public boolean verificarPaquete(LinkedList<Centro> centros) {
-        for (Centro c : centros) {
-            LinkedList<Paquete> paquetesCentro = c.getPaquetesAlmacenados();
-            for (Paquete p : paquetesCentro) {
-                if (p.getId().equals(this.paquete)) {
-                    return true;
-                }
-            }
-        }
-        System.out.println("Desde solicitud "+this.getId()+": el paquete asignado no se encuentra en el sistema");
-        return false;
-    }
-
-    public boolean verificarDuplicados(LinkedList<Solicitud> solicitudes) {
-        for (Solicitud s : solicitudes) {
-            if (s.getId().equals(this.id)) {
-                System.out.println("Desde solicitud "+this.getId()+": la solicitud ya se encuentra en el sistema");
-                return true;
-            }
-        }
-        return false;
     }
 }
