@@ -56,9 +56,8 @@ public class MensajerosController {
     }
 
     @PutMapping("/{id}/centro")
-    public ResponseEntity<?> cambiarCentro(@PathVariable String id, @RequestBody Map<String, String> body) {
+    public ResponseEntity<?> cambiarCentro(@PathVariable String id, @RequestParam String nuevoCentro) {
         try {
-            String nuevoCentro = body.get("centro");
             mensajeroService.cambiarCentro(id, nuevoCentro);
             return ResponseEntity.ok("Centro asignado actualizado exitosamente");
         } catch (IllegalStateException e) {

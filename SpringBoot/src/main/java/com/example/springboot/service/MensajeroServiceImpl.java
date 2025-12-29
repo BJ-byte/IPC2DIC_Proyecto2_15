@@ -47,9 +47,6 @@ public class MensajeroServiceImpl implements MensajeroService {
         if (centro == null) {
             throw new IllegalStateException("El centro asignado no existe");
         }
-        if (mensajero.getEstadoOperativo() == null) {
-            mensajero.setEstadoOperativo("DISPONIBLE");
-        }
         if (!mensajero.getEstadoOperativo().equals("DISPONIBLE") && !mensajero.getEstadoOperativo().equals("EN_TRANSITO")) {
             throw new IllegalStateException("Estado operativo invalido");
         }
