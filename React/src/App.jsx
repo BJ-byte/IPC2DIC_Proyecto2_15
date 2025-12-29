@@ -5,6 +5,9 @@ import './App.css'
 import NavBar from './componentes/NavBar.jsx'
 import UserServices from './vistas/CargaXml.jsx'
 import GestionCentros from './vistas/GestionCentros.jsx'
+import GestionRutas from './vistas/GestionRutas.jsx'
+import GestionMensajeros from './vistas/GestionMensajeros.jsx'
+import GestionPaquetes from './vistas/GestionPaquetes.jsx'
 
 function App() {
   return (
@@ -17,9 +20,9 @@ function App() {
         <Routes>
           <Route path="/api/importar" element={<UserServices/>} />
           <Route path="/api/centros" element={<GestionCentros />} />
-          <Route path="/api/rutas" element={<div>Gestión de rutas</div>} />
-          <Route path="/api/mensajeros" element={<div>Gestión de mensajeros</div>} />
-          <Route path="/api/paquetes" element={<div>Gestión de paquetes</div>} />
+          <Route path="/api/rutas" element={<GestionRutas />} />
+          <Route path="/api/mensajeros" element={<GestionMensajeros />} />
+          <Route path="/api/paquetes" element={<GestionPaquetes />} />
           <Route path="/api/solicitudes" element={<div>Gestión de solicitudes</div>} />
         </Routes>
       </main>

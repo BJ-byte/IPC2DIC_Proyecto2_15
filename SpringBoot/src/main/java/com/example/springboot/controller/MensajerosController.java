@@ -6,7 +6,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
-import java.util.List;
+import java.util.LinkedList;
 
 @RestController
 @RequestMapping("/api/mensajeros")
@@ -19,7 +19,7 @@ public class MensajerosController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Mensajero>> obtenerMensajeros() {
+    public ResponseEntity<LinkedList<Mensajero>> obtenerMensajeros() {
         return ResponseEntity.ok(mensajeroService.obtenerMensajeros());
     }
 
@@ -56,8 +56,9 @@ public class MensajerosController {
     }
 
     @PutMapping("/{id}/centro")
-    public ResponseEntity<?> cambiarCentro(@PathVariable String id, @RequestParam String nuevoCentro) {
+    public ResponseEntity<?> cambiarCentro(@PathVariable String id, @RequestBody Map<String, String> body) {
         try {
+            String nuevoCentro = body.get("centro");
             mensajeroService.cambiarCentro(id, nuevoCentro);
             return ResponseEntity.ok("Centro asignado actualizado exitosamente");
         } catch (IllegalStateException e) {

@@ -4,7 +4,7 @@ import com.example.springboot.model.*;
 import com.example.springboot.service.CentroService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.*;
-import java.util.List;
+import java.util.LinkedList;
 
 
 
@@ -19,7 +19,7 @@ public class CentroController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Centro>> obtenerCentros() {
+    public ResponseEntity<LinkedList<Centro>> obtenerCentros() {
         return ResponseEntity.ok(centroService.obtenerCentros());
     }
 

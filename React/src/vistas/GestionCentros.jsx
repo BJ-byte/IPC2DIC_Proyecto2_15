@@ -19,14 +19,12 @@ const GestionCentros = () => {
 
     const [centroIdInput, setCentroIdInput] = useState('')
 
-    // ======================
     // CARGAR TODOS LOS CENTROS
-    // ======================
     const mostrarCentros = async () => {
         try {
             limpiarEstados()
             const data = await obtenerCentros()
-            console.log('Centros recibidos:', data) // DEBUG
+            console.log('Centros recibidos:', data)
             setCentros(data)
             setCentro(null)
             // limpiar detalles anidados
@@ -42,9 +40,7 @@ const GestionCentros = () => {
         }
     }
 
-    // ======================
     // CARGAR CENTRO POR ID
-    // ======================
     const mostrarCentroPorId = async (id) => {
         try {
             limpiarEstados()
@@ -64,9 +60,7 @@ const GestionCentros = () => {
         }
     }
 
-    // ======================
     // LISTAR PAQUETES
-    // ======================
     const listarPaquetesDelCentro = async (id) => {
         try {
             // estado local por centro
@@ -82,9 +76,7 @@ const GestionCentros = () => {
         }
     }
 
-    // ======================
     // LISTAR MENSAJEROS
-    // ======================
     const listarMensajerosDelCentro = async (id) => {
         try {
             setLoadingMensajeros(prev => ({ ...prev, [id]: true }))
@@ -105,9 +97,7 @@ const GestionCentros = () => {
         // no limpiar los anidados aquí para no borrar al alternar
     }
 
-    // ======================
     // RENDER
-    // ======================
     return (
         <section>
             <h1>Gestión de Centros</h1>
@@ -123,7 +113,7 @@ const GestionCentros = () => {
             <button onClick={() =>
                 mostrarCentroPorId(centroIdInput)
             }>
-                Cargar Centro
+                Buscar Centro
             </button>
 
             {/* MENSAJES */}
@@ -190,7 +180,7 @@ const GestionCentros = () => {
                             ))}
                         </ul>
                     )}
-
+    
                     {/* Mensajeros del centro seleccionado */}
                     {loadingMensajeros[centro.id] && <p>Cargando mensajeros...</p>}
                     {erroresMensajeros[centro.id] && <p style={{ color: 'red' }}>{erroresMensajeros[centro.id]}</p>}
