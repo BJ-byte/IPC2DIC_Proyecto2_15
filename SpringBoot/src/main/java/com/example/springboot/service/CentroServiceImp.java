@@ -8,13 +8,6 @@ import java.util.LinkedList;
 @Service
 public class CentroServiceImp implements CentroService{
 
-    private final PaqueteService paqueteService;
-    private final MensajeroService mensajeroService;
-    
-    public CentroServiceImp(PaqueteService paqueteService, MensajeroService mensajeroService) {
-        this.paqueteService = paqueteService;
-        this.mensajeroService = mensajeroService;
-    }
     private LinkedList<Centro> centros = new LinkedList<>();
 
     @Override
@@ -51,8 +44,10 @@ public class CentroServiceImp implements CentroService{
         if (!paquete.getEstado().equals("PENDIENTE")) {
             throw new IllegalArgumentException("Estado de paquete invalido, los paquetes solo pueden crearse con estado PENDIENTE");
         }
-        if (paqueteService.buscarPaquetePorId(paquete.getId()) != null) {
-            throw new IllegalArgumentException("Ya existe un paquete con el ID proporcionado");
+        for (Paquete p : centro.getPaquetesAlmacenados()) {
+            if (p.getId().equals(paquete.getId())) {
+                throw new IllegalArgumentException("Paquete duplicado en el centro");
+            }
         }
         centro.agregarPaquete(paquete);
     }
@@ -63,8 +58,10 @@ public class CentroServiceImp implements CentroService{
         if (centro == null) {
             throw new IllegalStateException("Centro no encontrado");
         }
-        if (mensajeroService.buscarMensajeroPorId(mensajero.getId()) != null) {
-            throw new IllegalArgumentException("Ya existe un mensajero con el ID proporcionado");
+        for(Mensajero m : centro.getMensajerosActuales()) {
+            if (m.getId().equals(mensajero.getId())) {
+                throw new IllegalArgumentException("Mensajero duplicado en el centro");
+            }
         }
         if (!mensajero.getEstadoOperativo().equals("DISPONIBLE") && !mensajero.getEstadoOperativo().equals("EN_TRANSITO")) {
             throw new IllegalArgumentException("Estado operativo invalido");
